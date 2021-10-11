@@ -15,7 +15,6 @@ function Rooms() {
 
     return (
         <div>
-            <div>Комнаты</div>
             {rooms.map(room =>
                 <Room
                     title={room.title}
@@ -25,17 +24,6 @@ function Rooms() {
                     isBoard={room.isBoard}
                 />
             )}
-            {/*<Switch>*/}
-            {/*    <Route path={`${match.path}/:roomId`}>*/}
-            {/*        <Room*/}
-            {/*            title={'test'}*/}
-            {/*            chairs={'test'}*/}
-            {/*            time={'test'}*/}
-            {/*            isProjector={'test'}*/}
-            {/*            isBoard={'test'}*/}
-            {/*        />*/}
-            {/*    </Route>*/}
-            {/*</Switch>*/}
         </div>
     );
 }

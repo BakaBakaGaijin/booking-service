@@ -1,0 +1,20 @@
+.acceptRoomList {
+    display: flex;
+    flex-direction: column;
+}
+
+.acceptRoomItem {
+    box-sizing: border-box;
+    border: 1px solid #035ed8;
+    padding: 10px;
+    display: flex;
+}
+
+.acceptRoomInfo {
+    flex-grow: 1;
+}
+
+.acceptRoomBtn:hover {
+    cursor: pointer;
+}
+

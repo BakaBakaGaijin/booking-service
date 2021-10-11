@@ -47,9 +47,9 @@ const initialState = {
     acceptRooms: [
         {
             title: "1211",
-            person: "",
-            date: "",
-            time: "",
+            person: "Vova",
+            date: "26.11.2001",
+            time: "10:00-16:00",
         },
     ],
 }
@@ -65,13 +65,42 @@ export const roomSlice = createSlice({
                 date: action.payload.date,
                 time: action.payload.time,
             });
-            //state.acceptRooms.append
+        },
+        doNotAccept: (state, action) => {
+            console.log("action.payload: ", action.payload);
+            const newState = state.acceptRooms.filter((room) =>
+                room.title != action.payload.title &&
+                room.person != action.payload.person &&
+                room.date != action.payload.date &&
+                room.time != action.payload.time
+            )
+
+            state.acceptRooms = newState;
+        },
+        acceptRoom: (state, action) => {
+            const newState = state.acceptRooms.filter((room) =>
+                room.title != action.payload.title &&
+                room.person != action.payload.person &&
+                room.date != action.payload.date &&
+                room.time != action.payload.time
+            )
+
+            state.acceptRooms = newState;
+            state.rooms.map(room => {
+                if (room.title == action.payload.title) {
+                    room.time.push({
+                        date: action.payload.date,
+                        time: action.payload.time,
+                        person: action.payload.person
+                    })
+                }
+            })
         }
     },
     extraReducers: () => {}
 })
 
-export const {addToAccept} = roomSlice.actions;
+export const {addToAccept, doNotAccept, acceptRoom} = roomSlice.actions;
 
 export const selectRooms = (state) => state.rooms.rooms;
 

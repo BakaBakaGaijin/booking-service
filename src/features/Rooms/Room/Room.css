@@ -1,0 +1,26 @@
+.room {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    display: flex;
+    justify-content: space-between;
+    color: black;
+    text-decoration: none;
+}
+
+.room:hover {
+    background-color: #056efd;
+    color: #fff;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.room:active {
+    text-decoration: none;
+}
+
+.board {
+    margin-left: 10px;
+}

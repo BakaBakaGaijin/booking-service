@@ -1,0 +1,59 @@
+.currentRoom {
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    max-width: 900px;
+}
+
+.currentRoom-title {
+    text-align: center;
+}
+
+.currentRoomToolsWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.currentRoom-tools {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 5px;
+    border-top: 1px solid #e1e1e1;
+}
+
+.currentRoom-tools:last-child {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.currentRoom-img {
+    border-right: 1px solid #e1e1e1;
+    margin-right: 10px;
+}
+
+.reservationTime {
+    text-align: center;
+}
+
+.reservationTime-item {
+    padding: 5px;
+    border-top: 1px solid #e1e1e1;
+}
+
+.currentRoom-btn {
+    box-sizing: border-box;
+    width: 200px;
+    margin: auto;
+    margin-top: 100px;
+    height: 40px;
+    border: 1px solid #056efd;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #056efd;
+}
+
+.currentRoom-btn:hover {
+    background-color: #056efd;
+    color: #fff;
+    cursor: pointer;
+}

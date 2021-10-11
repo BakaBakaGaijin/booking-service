@@ -11,7 +11,7 @@ export default function CurrentRoom() {
     const dispatch = useDispatch();
     let {roomId} = useParams();
     let room = useSelector((state) => state.rooms.rooms.filter(r => r.title == roomId)[0])
-    console.log(room);
+    console.log("room", room);
     /**/
     const title = `Комната ${room.title[0]}.${room.title.slice(1)}`;
     const places = `${room.chairs} ${getStrToChairs(room.chairs)}`;

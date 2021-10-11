@@ -13,7 +13,6 @@ export default function Modal() {
     const isShowing = useSelector(state => state.modal.show);
     const mode = useSelector(state => state.modal.mode);
     const roomId = useSelector(state => state.modal.currentRoom);
-    console.log(roomId);
 
     const changeHandler = (e) => {
         console.log(isShowing);

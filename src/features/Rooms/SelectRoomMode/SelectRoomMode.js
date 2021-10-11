@@ -16,9 +16,6 @@ export default function SelectRoomMode() {
                 <Link to={"rooms/acceptRoom"} className={"navbar-link"}>Одобрить комнаты</Link>
             </navbar>
             <Switch>
-                <Route path={"/login"}>
-                    <Login />
-                </Route>
                 <PrivateRoute
                     exact
                     path={"/rooms"}

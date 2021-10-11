@@ -12,7 +12,6 @@ export function getStrToChairs(chairs) {
     switch (chairs) {
         case '1':
             strChairs = 'место';
-            console.log('место')
             break;
         case '2':
         case '3':
@@ -21,7 +20,6 @@ export function getStrToChairs(chairs) {
             break;
         default:
             strChairs = 'мест';
-            console.log('мест')
             break;
     }
 

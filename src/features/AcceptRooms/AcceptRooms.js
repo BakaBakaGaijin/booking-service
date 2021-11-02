@@ -7,6 +7,7 @@ import {doNotAccept, acceptRoom} from "../Rooms/roomSlice";
 import {useEffect} from "react";
 import {Loader} from "../Loader/Loader";
 import {fetchAcceptRooms, selectAcceptRooms} from './acceptRoomsSlice';
+import {getTimeData} from "../getTimeData/getTimeData";
 
 export default function AcceptRooms() {
     const dispatch = useDispatch();
@@ -18,6 +19,8 @@ export default function AcceptRooms() {
         if (roomStatus === 'idle') {
             dispatch(fetchAcceptRooms())
         }
+
+        let timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectAcceptRooms);
@@ -35,10 +38,10 @@ export default function AcceptRooms() {
                                     key={room.title}
                                 >
                                     <div className="acceptRoomInfo">
-                                        <p>Дата: {room.date}</p>
+                                        <p>Дата: {getTimeData(room).date}</p>
                                         <p>Участник: {room.person}</p>
                                         <p>Номер комнаты: {room.title[0]}.{room.title.slice(1)}</p>
-                                        <p>Время: {room.time}</p>
+                                        <p>Время: {getTimeData(room).timeRange}</p>
                                     </div>
                                     <div className="acceptRoomConfirm">
                                         <img

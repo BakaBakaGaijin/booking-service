@@ -1,5 +1,20 @@
 import { rest } from 'msw';
 
+let roomsToAccept = [
+    {
+        title: "1211",
+        person: "Vova",
+        startDate: "2001-11-26T10:00:00.417Z",
+        endDate: "2001-11-26T16:00:00.417Z",
+    },
+    {
+        title: "4219",
+        person: "Vova",
+        startDate: "2001-11-23T10:00:00.417Z",
+        endDate: "2001-11-23T16:00:00.417Z",
+    },
+];
+
 const ID = 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda';
 // if (req.id === ID);
 export const handlers = [
@@ -22,29 +37,34 @@ export const handlers = [
         console.log('data', data);
         return res(
             ctx.status(200),
-            ctx.delay(1000)
+            ctx.delay(1000),
+            ctx.json()
+        )
+    }),
+
+    rest.post('/api/accept-rooms', (req, res, ctx) => {
+        const {title, person, startDate, endDate} = req.body;
+
+        let roomToAccept = {
+                title,
+                person,
+                startDate,
+                endDate,
+        };
+
+        return res(
+            ctx.status(200),
+            ctx.delay(10000),
+            ctx.json(roomToAccept)
         )
     }),
 
     rest.get('/api/accept-rooms', (req, res, ctx) => {
         return res(
             ctx.status(200),
-            ctx.delay(10000),
+            ctx.delay(100),
             ctx.json(
-                [
-                    {
-                        title: "1211",
-                        person: "Vova",
-                        startDate: "2001-11-26T10:00:00.417Z",
-                        endDate: "2001-11-26T16:00:00.417Z",
-                    },
-                    {
-                        title: "4219",
-                        person: "Vova",
-                        startDate: "2001-11-23T10:00:00.417Z",
-                        endDate: "2001-11-23T16:00:00.417Z",
-                    },
-                ]
+                roomsToAccept
             )
         )
     }),

@@ -1,11 +1,14 @@
 import DatePicker from "react-datepicker";
-import {addToAccept} from "../Rooms/roomSlice";
+import {addNewToAcceptRooms} from "../AcceptRooms/acceptRoomsSlice";
 import {change} from "./modalSlice";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
+import {statusChanged} from "../AcceptRooms/acceptRoomsSlice";
+import {Loader} from "../Loader/Loader";
 
 export const ModalReservation = () => {
+    const name = useSelector(state => state.auth.name);
     const roomStatus = useSelector(state => state.rooms.status);
     const error = useSelector(state => state.rooms.error);
 
@@ -15,63 +18,76 @@ export const ModalReservation = () => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState();
-    console.log('startDate', startDate.toISOString())
-    console.log('endDate',startDate)
+    const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
+    let canSave = addRequestStatus === 'idle';
+
+    const onReserveRoom = async () => {
+        if (canSave) {
+            try {
+                statusChanged('pending');
+                setAddRequestStatus('pending')
+                await dispatch(addNewToAcceptRooms({
+                    title: roomId,
+                    person: name,
+                    startDate,
+                    endDate
+                }));
+                setStartDate('');
+                setEndDate('');
+
+            } finally {
+                statusChanged('succeeded');
+                setAddRequestStatus('idle');
+                dispatch(change())
+            }
+        }
+    }
     return (
-        <form className={"loginForm"}>
-            <label
-                htmlFor="date"
-                className={"label"}
-            >
-                Начало:
-            </label>
-            <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                showTimeSelect
-                dateFormat={"Pp"}
-                id="date"
-                className={"input"}
-                placeholder={"Enter start"}
-            />
-            <label
-                htmlFor="time"
-                className={"label"}
-            >
-                Конец:
-            </label>
-            <DatePicker
-                selected={endDate}
-                onChange={(date) => {
-                    console.log(date);
-                    setEndDate(date)
-                }}
-                showTimeSelect
-                dateFormat={"Pp"}
-                id="time"
-                className={"input"}
-                placeholder={"Enter end"}
-            />
-            <button
-                type={"submit"}
-                className={"loginButton"}
-                onClick={() => {
-                    if (startDate && endDate) {
-                        dispatch(addToAccept({
-                            title: roomId,
-                            person: 'I',
-                            date: '01.01.2001' ,
-                            time: startDate + endDate
-                        }))
-
-                        dispatch(change())
-                    }
-                }
-                }
-            >
-                Забронировать
-            </button>
-        </form>
+        <>
+            <form className={"loginForm"}>
+                <label
+                    htmlFor="date"
+                    className={"label"}
+                >
+                    Начало:
+                </label>
+                <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    dateFormat={"Pp"}
+                    id="date"
+                    className={"input"}
+                    placeholder={"Enter start"}
+                />
+                <label
+                    htmlFor="time"
+                    className={"label"}
+                >
+                    Конец:
+                </label>
+                <DatePicker
+                    selected={endDate}
+                    onChange={(date) => {
+                        console.log(date);
+                        setEndDate(date)
+                    }}
+                    showTimeSelect
+                    dateFormat={"Pp"}
+                    id="time"
+                    className={"input"}
+                    placeholder={"Enter end"}
+                />
+                <button
+                    type={"submit"}
+                    className={"loginButton"}
+                    onClick={onReserveRoom}
+                >
+                    Забронировать
+                </button>
+            </form>
+            {addRequestStatus === 'pending' && <Loader />}
+        </>
     )
 }

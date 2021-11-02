@@ -2,17 +2,19 @@ import "./Modal.css";
 import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {change} from "./modalSlice";
-import {addToAccept} from "../Rooms/roomSlice";
-import {useParams} from "react-router-dom";
+import {ModalReservation} from "./ModalReservation";
 
 export default function Modal() {
-    const [date, setDate] = useState("");
-    const [time, setTime] = useState("");
+
+    const [title, setTitle] = useState('');
+    const [chairs, setChairs] = useState('');
+    const [isProjector, setIsProjector] = useState(false);
+    const [isBoard, setIsBoard] = useState(false);
+    const [description, setDescription] = useState('');
 
     const dispatch = useDispatch();
     const isShowing = useSelector(state => state.modal.show);
     const mode = useSelector(state => state.modal.mode);
-    const roomId = useSelector(state => state.modal.currentRoom);
 
     const changeHandler = (e) => {
         console.log(isShowing);
@@ -39,53 +41,84 @@ export default function Modal() {
                         onClick={(e) => {e.preventDefault()
                         e.stopPropagation()}}
                     >
-                        {mode == 'time' && <div>
-                            <form className={"loginForm"}>
-                                <label
-                                    htmlFor="date"
-                                    className={"label"}
-                                >
-                                    Выберите дату
-                                </label>
-                                <input
-                                    type="text"
-                                    id="date"
-                                    className={"input"}
-                                    placeholder={"Enter date"}
-                                    onChange={(e) => setDate(e.target.value)}
-                                />
-                                <label
-                                    htmlFor="time"
-                                    className={"label"}
-                                >
-                                    Password
-                                </label>
-                                <input
-                                    type="text"
-                                    id="time"
-                                    className={"input"}
-                                    placeholder={"Enter time"}
-                                    onChange={(e) => setDate(e.target.value)}
-                                />
-                                <button
-                                    type={"submit"}
-                                    className={"loginButton"}
-                                    onClick={() => {
-                                        if (date && time) {
-                                            dispatch(addToAccept({
-                                                title: roomId,
-                                                person: 'I',
-                                                date,
-                                                time
-                                            }))
-                                        }
-                                    }
-                                    }
-                                >
-                                    Забронировать
-                                </button>
-                            </form>
-                        </div>}
+                        {mode == 'time' && <ModalReservation />}
+                        {mode === 'createRoom' && <form className="loginForm">
+                            <label
+                                htmlFor="title"
+                                className={'label'}
+                            >
+                                Номер комнаты:
+                            </label>
+                            <input
+                                value={title}
+                                type="text"
+                                id="title"
+                                className={'input'}
+                                placeholder={'Введите номер комнаты'}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <label
+                                htmlFor="chairs"
+                                className="label"
+                            >
+                                Количество мест:
+                            </label>
+                            <input
+                                value={chairs}
+                                type="text"
+                                id="chairs"
+                                className={'input'}
+                                placeholder={'Введите количество кресел'}
+                                onChange={(e) => setChairs(e.target.value)}
+                            />
+                            <input
+                                checked={isProjector ? 'checked' : false}
+                                type="checkbox"
+                                id="projector"
+                                className="input"
+
+                            />
+                            <label
+                                htmlFor="projector"
+                                className="label"
+                                onClick={() => {
+                                    console.log(isProjector);
+                                    setIsProjector(!isProjector)
+
+                                }}
+                            >
+                                Есть проектор?
+                            </label>
+                            <input
+                                checked={isBoard ? 'checked' : false}
+                                type="checkbox"
+                                id="board"
+                                className="input"
+
+                            />
+                            <label
+                                htmlFor="board"
+                                className="label"
+                                onClick={() => {
+                                    console.log(isBoard);
+                                    setIsBoard(!isBoard)
+
+                                }}
+                            >
+                                Есть доска?
+                            </label>
+                            <label
+                                htmlFor="description"
+                                className="label"
+                            >Описание:</label>
+                            <textarea
+                                value={description}
+                                id="description"
+                                className={'input textarea'}
+                                placeholder={'Добавьте описание комнаты'}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </form>}
                     </div>
                 </div>
             </div>

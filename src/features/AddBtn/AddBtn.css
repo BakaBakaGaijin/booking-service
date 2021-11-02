@@ -1,0 +1,19 @@
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    right: 10%;
+    bottom: 5%;
+    background-color: rgba(5, 110, 253, .5);
+    border: 1px solid #056efd;
+    cursor: pointer;
+}
+
+.addBtn:hover {
+    background-color: rgb(5, 110, 253);
+}

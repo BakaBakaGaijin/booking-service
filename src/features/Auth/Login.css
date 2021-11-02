@@ -1,9 +1,15 @@
+.loginFormWrapper {
+    height: 100vh;
+    display: flex;
+}
+
 .loginForm {
     box-sizing: border-box;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
     padding: 40px;
     width: 300px;
+    margin: auto;
 }
 
 .label {
@@ -34,4 +40,12 @@
 .loginButton:hover {
     cursor: pointer;
     background-color: #035ed8;
+}
+
+.loginWarning {
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 10px 0;
 }

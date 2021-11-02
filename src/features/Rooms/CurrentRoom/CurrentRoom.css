@@ -1,4 +1,6 @@
 .currentRoom {
+    margin: auto;
+    margin: auto;
     display: flex;
     padding: 20px;
     flex-direction: column;

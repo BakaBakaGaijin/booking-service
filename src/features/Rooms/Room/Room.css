@@ -24,3 +24,13 @@
 .board {
     margin-left: 10px;
 }
+
+.col2 {
+    display: inline-flex;
+}
+
+.equipment {
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+}

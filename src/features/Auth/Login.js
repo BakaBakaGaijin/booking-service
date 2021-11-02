@@ -3,8 +3,13 @@ import {useState} from "react";
 import "./Login.css";
 import {useAuth} from "./use-auth";
 import {useHistory, useLocation} from "react-router-dom";
+import {loginAsync} from "./authSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Login() {
+    const isPerson = useSelector(state => state.auth.isPerson);
+    console.log('isPerson: ', isPerson)
+    const dispatch = useDispatch();
     let history = useHistory();
     let location = useLocation();
     let auth = useAuth();
@@ -20,43 +25,75 @@ export default function Login() {
     let [password, setPassword] = useState("");
 
     return (
-        <form className={"loginForm"}>
-            <label
-                htmlFor="login"
-                className={"label"}
-            >
-                Login
-            </label>
-            <input
-                type="text"
-                id="login"
-                className={"input"}
-                placeholder={"Enter your login"}
-                onChange={(e) => setLogin(e.target.value)}
-            />
-            <label
-                htmlFor="password"
-                className={"label"}
-            >
-                Password
-            </label>
-            <input
-                type="password"
-                id="password"
-                className={"input"}
-                placeholder={"Enter your password"}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-                type={"submit"}
-                className={"loginButton"}
-                onClick={(e) => {
-                    e.preventDefault();
-                    logIn();
-                }}
-            >
-                Log in
-            </button>
-        </form>
+        <div className='loginFormWrapper'>
+            <form className={"loginForm"}>
+                <label
+                    htmlFor="login"
+                    className={"label"}
+                >
+                    Login
+                </label>
+                <input
+                    type="text"
+                    id="login"
+                    className={"input"}
+                    placeholder={"Enter your login"}
+                    onChange={(e) => setLogin(e.target.value)}
+                />
+                <label
+                    htmlFor="password"
+                    className={"label"}
+                >
+                    Password
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    className={"input"}
+                    placeholder={"Enter your password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {!isPerson && <p className={'loginWarning'}>Пользователь не зарегистрирован</p>}
+                <button
+                    type={"submit"}
+                    className={"loginButton"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (login && password) {
+                            dispatch(loginAsync({login, password}));
+                        }
+                        logIn();
+                    }}
+                >
+                    Log in
+                </button>
+                <button
+                    type={"submit"}
+                    className={"loginButton"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (login && password) {
+                            dispatch(loginAsync({login, password}));
+                        }
+                        logIn();
+                    }}
+                >
+                    Log in as user
+                </button>
+                <button
+                    onClick={
+                        (e) => {
+                            e.preventDefault();
+                            fetch('/occupied-rooms', {
+                                method: 'GET',
+                            })
+                                .then((res) => res.json())
+                                // Update the state with the received response
+                                 .then((data) => console.log(data))
+                        }
+                    }
+                >запрос</button>
+            </form>
+        </div>
     );
 }

@@ -6,18 +6,41 @@ import {getStrToChairs} from "../Room/Room";
 import "./CurrentRoom.css";
 import is from "../../../icons/is.png"
 import isnt from "../../../icons/isnt.png"
+import {selectRooms} from "../roomSlice";
+import {useState} from "react";
+import {selectIsOfficeManager} from "../../Auth/authSlice";
 
 export default function CurrentRoom() {
-    const dispatch = useDispatch();
+    const isOfficeManager = useSelector(selectIsOfficeManager);
+
     let {roomId} = useParams();
-    let room = useSelector((state) => state.rooms.rooms.filter(r => r.title == roomId)[0])
+    let room = useSelector(selectRooms).filter(r => r.title == roomId)[0];
+    const [smthWasChanged, setSmthWasChanged] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(room.title);
+
+
+    const dispatch = useDispatch();
+
+
     console.log("room", room);
     /**/
     const title = `Комната ${room.title[0]}.${room.title.slice(1)}`;
     const places = `${room.chairs} ${getStrToChairs(room.chairs)}`;
     return (
         <div className={"currentRoom"}>
-            <h3 className={"currentRoom-title"}>{title}</h3>
+            {isOfficeManager ? <button onClick={() => setIsEdit(true)}>Редактировать</button> : null}
+            {
+                isEdit
+                    ? <label >Номер комнаты:
+                        <input
+
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                        />
+                    </label>
+                    : <h3 className={"currentRoom-title"}>{title}</h3>
+            }
             <p>{places}</p>
             <div className="currentRoomToolsWrapper">
                 <div className="currentRoom-tools currentRoom-projector">
@@ -40,12 +63,17 @@ export default function CurrentRoom() {
                     <td className={"reservationTime-item"}>{r.person}</td>
                 </tr>)}
             </table>
-
-            <button
-                className={"currentRoom-btn"}
-                onClick={() => dispatch(change({mode: 'time',
-                currentRoom: roomId}))}
-            >Зарезервировать</button>
+            {
+                smthWasChanged
+                ? <button className="currentRoom-btn">
+                    Сохранить изменения
+                </button>
+                : <button
+                    className={"currentRoom-btn"}
+                    onClick={() => dispatch(change({mode: 'time',
+                        currentRoom: roomId}))}
+                >Забронировать</button>
+            }
         </div>
     );
 }

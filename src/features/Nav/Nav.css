@@ -1,0 +1,21 @@
+.navbar {
+    display: flex;
+    border-bottom: 1px solid #000;
+}
+
+.navbar-link {
+    flex-grow: 1;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+    color: #000;
+}
+
+.navbar-link:hover {
+    background-color: rgba(5, 110, 253, .5);
+}
+
+.navbar-link.active {
+    background-color: rgb(5, 110, 253);
+    color: #fff;
+}

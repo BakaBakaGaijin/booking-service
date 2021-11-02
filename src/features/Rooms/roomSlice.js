@@ -1,49 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
 
 const initialState = {
-    rooms: [
-        {
-            title: "4442",
-            chairs: "45",
-            time: [
-                {
-                    date: "01.01.2001",
-                    time: "11:00-12:00",
-                    person: "Иванов Иван"
-                }
-            ],
-            isProjector: true,
-            isBoard: true,
-            description: "Описание1",
-        },
-        {
-            title: "4219",
-            chairs: "0",
-            time: [
-                {
-                    date: "01.01.2001",
-                    time: "10:00-12:00",
-                    person: "Петров Пётр"
-                },
-                {
-                    date: "01.02.2002",
-                    time: "14:00-15:00",
-                    person: "Углов Николай"
-                }
-            ],
-            isProjector: true,
-            isBoard: false,
-            description: "Описание2",
-        },
-        {
-            title: "1211",
-            chairs: "1",
-            time: [],
-            isProjector: false,
-            isBoard: true,
-            description: "Описание3",
-        },
-    ],
+    allRooms: [],
+    status: 'idle',
+    error: null,
     acceptRooms: [
         {
             title: "1211",
@@ -53,6 +14,19 @@ const initialState = {
         },
     ],
 }
+
+export const addNewToAcceptRooms = createAsyncThunk(
+    'rooms/addNewToAcceptRooms',
+    async initialData => {
+        const response = await axios.post('/api/rooms', initialData);
+        return response.data;
+    }
+)
+
+export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async() => {
+    const response = await axios.get('/api/rooms');
+    return response.data;
+})
 
 export const roomSlice = createSlice({
     name: 'rooms',
@@ -78,6 +52,7 @@ export const roomSlice = createSlice({
             state.acceptRooms = newState;
         },
         acceptRoom: (state, action) => {
+            console.log("accept room action.payload: ", action.payload);
             const newState = state.acceptRooms.filter((room) =>
                 room.title != action.payload.title &&
                 room.person != action.payload.person &&
@@ -86,7 +61,7 @@ export const roomSlice = createSlice({
             )
 
             state.acceptRooms = newState;
-            state.rooms.map(room => {
+            state.allRooms.map(room => {
                 if (room.title == action.payload.title) {
                     room.time.push({
                         date: action.payload.date,
@@ -97,11 +72,35 @@ export const roomSlice = createSlice({
             })
         }
     },
-    extraReducers: () => {}
+    extraReducers(builder) {
+        builder
+            .addCase(fetchRooms.pending, (state, action) => {
+            state.status = 'loading';
+            })
+            .addCase(addNewToAcceptRooms.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(addNewToAcceptRooms.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.acceptRooms.push(action.payload);
+            })
+            .addCase(fetchRooms.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.allRooms = state.allRooms.concat(action.payload);
+            })
+            .addCase(addNewToAcceptRooms.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchRooms.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+    }
 })
 
 export const {addToAccept, doNotAccept, acceptRoom} = roomSlice.actions;
 
-export const selectRooms = (state) => state.rooms.rooms;
+export const selectRooms = (state) => state.rooms.allRooms;
 
 export default roomSlice.reducer;

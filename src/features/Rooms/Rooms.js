@@ -1,34 +1,43 @@
-import {
-    useRouteMatch,
-    useParams,
-    Link,
-    Switch,
-    Route
-} from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState} from 'react';
 
-import Room from "./Room/Room";
-import {useSelector} from "react-redux";
-import React from "react";
+import Room from './Room/Room';
+import { selectRooms, fetchRooms } from './roomSlice';
+import { Loader } from '../Loader/Loader';
 
 function Rooms() {
-    const rooms = useSelector(state => state.rooms.rooms)
+    const dispatch = useDispatch();
+
+    const roomStatus = useSelector(state => state.rooms.status);
+    const error = useSelector(state => state.rooms.error);
+
+    useEffect(() => {
+        if (roomStatus === 'idle') {
+            dispatch(fetchRooms())
+        }
+    }, [roomStatus, dispatch]);
+
+    const rooms = useSelector(selectRooms);
     let match = useRouteMatch();
 
     return (
         <div>
-            <navbar className={"navbar"}>
-                <Link to={"/rooms"} className={"navbar-link"}>Занятые комнаты</Link>
-                <Link to={"/acceptRoom"} className={"navbar-link"}>Одобрить комнаты</Link>
-            </navbar>
-            {rooms.map(room =>
-                <Room
-                    title={room.title}
-                    chairs={room.chairs}
-                    time={room.time}
-                    isProjector={room.isProjector}
-                    isBoard={room.isBoard}
-                />
-            )}
+            {
+                roomStatus === 'loading'
+                ? <Loader />
+                : roomStatus === 'succeeded'
+                        ? rooms.map(room =>
+                            <Room
+                                key={room.title}
+                                title={room.title}
+                                chairs={room.chairs}
+                                time={room.time}
+                                isProjector={room.isProjector}
+                                isBoard={room.isBoard}
+                            />)
+                        : 'Something went wrong'
+            }
         </div>
     );
 }

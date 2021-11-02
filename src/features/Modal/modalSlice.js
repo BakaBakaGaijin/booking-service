@@ -12,8 +12,13 @@ export const modalSlice = createSlice({
     reducers: {
         change: (state, action) => {
             if (action.payload) {
-                state.mode = action.payload.mode;
-                state.currentRoom = action.payload.currentRoom;
+                console.log('ok')
+                if (action.payload.currentRoom) {
+                    state.mode = action.payload.mode;
+                    state.currentRoom = action.payload.currentRoom;
+                } else {
+                    state.mode = action.payload.mode;
+                }
             }
 
            state.show = !state.show;

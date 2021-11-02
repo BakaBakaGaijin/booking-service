@@ -33,7 +33,7 @@ function useProvideAuth() {
     const [user, setUser] = useState(null);
 
     const dispatch = useDispatch();
-    //const user = useSelector((state) => state.auth.isAuthorized);
+    //const user = useSelector((state) => state.auth.name);
 
     const signin = cb => {
         return fakeAuth.signin(() => {

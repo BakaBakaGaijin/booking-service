@@ -5,6 +5,7 @@ import {
 import './Room.css';
 import projector from '../../../icons/projector.png';
 import board from '../../../icons/board.png';
+import {getTimeData} from "../../getTimeData/getTimeData";
 
 export function getStrToChairs(chairs) {
     let strChairs;
@@ -28,9 +29,18 @@ export function getStrToChairs(chairs) {
 
 function Room({title, chairs, time, isProjector, isBoard}) {
     let strChairs = getStrToChairs(chairs);
+    const isTime = Boolean(time[0]);
+
+    let timeRange;
+    if (isTime) {
+        let timeObj = getTimeData(time[0]);
+        timeRange = timeObj.timeRange;
+    }
+
     let strTitle = `Комната ${title[0]}.${title.slice(1)}`
 
     let places = `${chairs} ${strChairs}`;
+
     return (
 
         <Link
@@ -44,11 +54,15 @@ function Room({title, chairs, time, isProjector, isBoard}) {
                 <div className="col1">
                     <h3 className="title">{strTitle}</h3>
                     <p className="chairs">{places}</p>
-                    <p className="time">{time[0] ? `Time: ${time[0].time}` : "Аудитория свободна"}</p>
+                    <p className="time">{isTime ? `Time: ${timeRange}` : "Аудитория свободна"}</p>
                 </div>
                 <div className="col2">
-                    {isProjector && <img src={projector} alt="projector"/>}
-                    {isBoard && <img src={board} alt="board" className={"board"}/>}
+                    <div className="equipment">
+                        {isProjector && <img src={projector} alt="projector"/>}
+                    </div>
+                    <div className="equipment board">
+                        {isBoard && <img src={board} alt="board"/>}
+                    </div>
                 </div>
             </div>
         </Link>

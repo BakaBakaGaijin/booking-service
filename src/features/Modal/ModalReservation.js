@@ -15,6 +15,8 @@ export const ModalReservation = () => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState();
+    console.log('startDate', startDate.toISOString())
+    console.log('endDate',startDate)
 
     return (
         <form className={"loginForm"}>

@@ -3,6 +3,7 @@ import { useSelector, useDispatch} from "react-redux";
 
 import {change} from "../../Modal/modalSlice";
 import {getStrToChairs} from "../Room/Room";
+import {getTimeData} from "../../getTimeData/getTimeData";
 import "./CurrentRoom.css";
 import is from "../../../icons/is.png"
 import isnt from "../../../icons/isnt.png"
@@ -22,6 +23,7 @@ export default function CurrentRoom() {
 
     const dispatch = useDispatch();
 
+    room.time.map(r => console.log('r', r))
 
     console.log("room", room);
     /**/
@@ -58,8 +60,8 @@ export default function CurrentRoom() {
             <h4>Зарезервированное время</h4>
             <table>
                 {room.time.map(r => <tr className={"reservationTime"}>
-                    <td className={"reservationTime-item"}>{r.date}</td>
-                    <td className={"reservationTime-item"}>{r.time}</td>
+                    <td className={"reservationTime-item"}>{getTimeData(r).timeRange}</td>
+                    <td className={"reservationTime-item"}>{getTimeData(r).date}</td>
                     <td className={"reservationTime-item"}>{r.person}</td>
                 </tr>)}
             </table>

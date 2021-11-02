@@ -1,23 +1,30 @@
 export const getTimeData = (time) => {
-    let startDate, endDate, startHours, startMinutes, endHours, endMinutes, timeRange;
+    const startDate = new Date(time.startDate);
+    const endDate = new Date(time.endDate);
 
-    startDate = new Date(time.startDate);
-    endDate = new Date(time.endDate);
-
-    startHours = startDate.getHours().toString().length !== 2
+    const startHours = startDate.getHours().toString().length !== 2
         ? `0${startDate.getHours()}`
         : startDate.getHours();
-    startMinutes = startDate.getMinutes().toString().length !== 2
+    const startMinutes = startDate.getMinutes().toString().length !== 2
         ? `0${startDate.getMinutes()}`
         : startDate.getMinutes();
-    endHours = endDate.getHours().toString().length !== 2
+    const endHours = endDate.getHours().toString().length !== 2
         ? `0${endDate.getHours()}`
         : endDate.getHours();
-    endMinutes = endDate.getMinutes().toString().length !== 2
+    const endMinutes = endDate.getMinutes().toString().length !== 2
         ? `0${endDate.getMinutes()}`
         : endDate.getMinutes();
 
-    timeRange = `${startHours}:${startMinutes}-${endHours}:${endMinutes}`;
+    const timeRange = `${startHours}:${startMinutes}-${endHours}:${endMinutes}`;
 
-    return { startDate, endDate, startHours, startMinutes, endHours, endMinutes, timeRange };
+    const day = startDate.getDate().toString().length !== 2
+        ? `0${startDate.getDate()}` : startDate.getDate();
+    const month = (+startDate.getMonth() + 1).toString().length !== 2
+        ? `0${+startDate.getMonth() + 1}` : +startDate.getMonth() + 1;
+    const year = startDate.getFullYear();
+
+    const date = `${day}.${month}.${year}`;
+
+
+    return { timeRange, date };
 };

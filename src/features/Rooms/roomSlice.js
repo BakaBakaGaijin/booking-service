@@ -5,14 +5,6 @@ const initialState = {
     allRooms: [],
     status: 'idle',
     error: null,
-    acceptRooms: [
-        {
-            title: "1211",
-            person: "Vova",
-            date: "26.11.2001",
-            time: "10:00-16:00",
-        },
-    ],
 }
 
 export const addNewToAcceptRooms = createAsyncThunk(
@@ -75,24 +67,27 @@ export const roomSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchRooms.pending, (state, action) => {
-            state.status = 'loading';
-            })
-            .addCase(addNewToAcceptRooms.pending, (state, action) => {
                 state.status = 'loading';
             })
-            .addCase(addNewToAcceptRooms.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.acceptRooms.push(action.payload);
+
+            .addCase(addNewToAcceptRooms.pending, (state, action) => {
+                state.status = 'loading';
             })
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.allRooms = state.allRooms.concat(action.payload);
             })
-            .addCase(addNewToAcceptRooms.rejected, (state, action) => {
+
+            .addCase(addNewToAcceptRooms.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.acceptRooms.push(action.payload);
+            })
+            .addCase(fetchRooms.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            .addCase(fetchRooms.rejected, (state, action) => {
+
+            .addCase(addNewToAcceptRooms.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
@@ -102,5 +97,7 @@ export const roomSlice = createSlice({
 export const {addToAccept, doNotAccept, acceptRoom} = roomSlice.actions;
 
 export const selectRooms = (state) => state.rooms.allRooms;
+
+
 
 export default roomSlice.reducer;

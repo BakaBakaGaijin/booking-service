@@ -22,7 +22,30 @@ export const handlers = [
         console.log('data', data);
         return res(
             ctx.status(200),
-            ctx.delay(10000)
+            ctx.delay(1000)
+        )
+    }),
+
+    rest.get('/api/accept-rooms', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.delay(10000),
+            ctx.json(
+                [
+                    {
+                        title: "1211",
+                        person: "Vova",
+                        startDate: "2001-11-26T10:00:00.417Z",
+                        endDate: "2001-11-26T16:00:00.417Z",
+                    },
+                    {
+                        title: "4219",
+                        person: "Vova",
+                        startDate: "2001-11-23T10:00:00.417Z",
+                        endDate: "2001-11-23T16:00:00.417Z",
+                    },
+                ]
+            )
         )
     }),
 

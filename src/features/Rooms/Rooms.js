@@ -5,6 +5,7 @@ import React, { useEffect, useState} from 'react';
 import Room from './Room/Room';
 import { selectRooms, fetchRooms } from './roomSlice';
 import { Loader } from '../Loader/Loader';
+import {fetchAcceptRooms} from "../AcceptRooms/acceptRoomsSlice";
 
 function Rooms() {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function Rooms() {
         if (roomStatus === 'idle') {
             dispatch(fetchRooms())
         }
+
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectRooms);

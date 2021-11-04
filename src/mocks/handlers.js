@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import {acceptRoomDecision} from "../features/AcceptRooms/acceptRoomsSlice";
 
 let roomsToAccept = [
     {
@@ -12,6 +13,51 @@ let roomsToAccept = [
         person: "Vova",
         startDate: "2001-11-23T10:00:00.417Z",
         endDate: "2001-11-23T16:00:00.417Z",
+    },
+];
+
+let allRooms = [
+    {
+        title: "4442",
+        chairs: "45",
+        time: [
+            {
+                startDate: "2001-01-01T11:00:00.417Z",
+                endDate: "2001-01-01T12:00:00.417Z",
+                person: "Иванов Иван"
+            }
+        ],
+        isProjector: true,
+        isBoard: true,
+        description: "Описание1",
+    },
+    {
+        title: "4219",
+        chairs: "0",
+        time: [
+            {
+                startDate: "2001-01-01T10:00:00.417Z",
+                endDate: "2001-01-01T12:00:00.417Z",
+                person: "Петров Пётр"
+            },
+            {
+                startDate: "2002-01-02T14:00:00.417Z",
+                endDate: "2002-01-02T15:00:00.417Z",
+                time: "14:00-15:00",
+                person: "Углов Николай"
+            }
+        ],
+        isProjector: true,
+        isBoard: false,
+        description: "Описание2",
+    },
+    {
+        title: "1211",
+        chairs: "1",
+        time: [],
+        isProjector: false,
+        isBoard: true,
+        description: "Описание3",
     },
 ];
 
@@ -52,9 +98,39 @@ export const handlers = [
                 endDate,
         };
 
+        roomsToAccept.push(roomToAccept)
+
         return res(
             ctx.status(200),
-            ctx.delay(10000),
+            ctx.delay(100),
+            ctx.json(roomToAccept)
+        )
+    }),
+
+    rest.post('/api/accept-rooms-decision', (req, res, ctx) => {
+        const {title, person, startDate, endDate, decision} = req.body;
+
+        let roomToAccept = {
+            title,
+            person,
+            startDate,
+            endDate,
+        };
+
+        roomsToAccept = roomsToAccept.filter(el => JSON.stringify(el) !== JSON.stringify(roomToAccept));
+
+        if (decision === 'accept') {
+            let updatedReservation = allRooms.find(room => room.title = title);
+            const index = allRooms.findIndex(room => room.title = title);
+
+            updatedReservation.time.push({startDate, endDate, person});
+
+            allRooms[index] = updatedReservation;
+        }
+
+        return res(
+            ctx.status(200),
+            ctx.delay(100),
             ctx.json(roomToAccept)
         )
     }),
@@ -75,50 +151,7 @@ export const handlers = [
             ctx.status(200),
             ctx.delay(100),
             ctx.json(
-                 [
-                    {
-                        title: "4442",
-                        chairs: "45",
-                        time: [
-                            {
-                                startDate: "2001-01-01T11:00:00.417Z",
-                                endDate: "2001-01-01T12:00:00.417Z",
-                                person: "Иванов Иван"
-                            }
-                        ],
-                        isProjector: true,
-                        isBoard: true,
-                        description: "Описание1",
-                    },
-                    {
-                        title: "4219",
-                        chairs: "0",
-                        time: [
-                            {
-                                startDate: "2001-01-01T10:00:00.417Z",
-                                endDate: "2001-01-01T12:00:00.417Z",
-                                person: "Петров Пётр"
-                            },
-                            {
-                                startDate: "2002-01-02T14:00:00.417Z",
-                                endDate: "2002-01-02T15:00:00.417Z",
-                                time: "14:00-15:00",
-                                person: "Углов Николай"
-                            }
-                        ],
-                        isProjector: true,
-                        isBoard: false,
-                        description: "Описание2",
-                    },
-                    {
-                        title: "1211",
-                        chairs: "1",
-                        time: [],
-                        isProjector: false,
-                        isBoard: true,
-                        description: "Описание3",
-                    },
-                ],
+                 allRooms
             ),
         )
     }),

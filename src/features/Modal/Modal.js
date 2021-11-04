@@ -3,8 +3,10 @@ import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {change} from "./modalSlice";
 import {ModalReservation} from "./ModalReservation";
+import {Loader} from "../Loader/Loader";
 
 export default function Modal() {
+    const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
     const [title, setTitle] = useState('');
     const [chairs, setChairs] = useState('');
@@ -41,7 +43,10 @@ export default function Modal() {
                         onClick={(e) => {e.preventDefault()
                         e.stopPropagation()}}
                     >
-                        {mode == 'time' && <ModalReservation />}
+                        {mode == 'time' && <ModalReservation
+                            addRequestStatus={addRequestStatus}
+                            setAddRequestStatus={setAddRequestStatus}
+                        />}
                         {mode === 'createRoom' && <form className="loginForm">
                             <label
                                 htmlFor="title"
@@ -122,6 +127,7 @@ export default function Modal() {
                     </div>
                 </div>
             </div>
+            {addRequestStatus === 'pending' && <Loader />}
         </>
     );
 }

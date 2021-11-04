@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {statusChanged} from "../AcceptRooms/acceptRoomsSlice";
 import {Loader} from "../Loader/Loader";
 
-export const ModalReservation = () => {
+export const ModalReservation = ({addRequestStatus, setAddRequestStatus}) => {
     const name = useSelector(state => state.auth.name);
     const roomStatus = useSelector(state => state.rooms.status);
     const error = useSelector(state => state.rooms.error);
@@ -18,7 +18,6 @@ export const ModalReservation = () => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState();
-    const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
     let canSave = addRequestStatus === 'idle';
 
@@ -44,7 +43,6 @@ export const ModalReservation = () => {
         }
     }
     return (
-        <>
             <form className={"loginForm"}>
                 <label
                     htmlFor="date"
@@ -87,7 +85,5 @@ export const ModalReservation = () => {
                     Забронировать
                 </button>
             </form>
-            {addRequestStatus === 'pending' && <Loader />}
-        </>
     )
 }

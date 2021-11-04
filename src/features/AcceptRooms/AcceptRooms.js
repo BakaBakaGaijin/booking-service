@@ -4,23 +4,27 @@ import "./AcceptRooms.css";
 import confirm from "../../icons/is.png";
 import unConfirm from "../../icons/isnt.png";
 import {doNotAccept, acceptRoom} from "../Rooms/roomSlice";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Loader} from "../Loader/Loader";
 import {fetchAcceptRooms, selectAcceptRooms} from './acceptRoomsSlice';
 import {getTimeData} from "../getTimeData/getTimeData";
+import {acceptRoomDecision} from "./acceptRoomsSlice";
 
 export default function AcceptRooms() {
+    let timerId;
+
     const dispatch = useDispatch();
 
     const roomStatus = useSelector(state => state.acceptRoom.status);
     const error = useSelector(state => state.acceptRoom.error);
+
 
     useEffect(() => {
         if (roomStatus === 'idle') {
             dispatch(fetchAcceptRooms())
         }
 
-        let timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000)
+        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectAcceptRooms);
@@ -28,7 +32,7 @@ export default function AcceptRooms() {
     return (
         <>
             {
-                roomStatus === 'loading'
+                roomStatus === 'loading' && !timerId
                     ? <Loader />
                     : roomStatus === 'succeeded'
                         ? <div className={"acceptRoomList"}>
@@ -45,12 +49,18 @@ export default function AcceptRooms() {
                                     </div>
                                     <div className="acceptRoomConfirm">
                                         <img
-                                            onClick={() => dispatch(acceptRoom({...room}))}
+                                            onClick={() => dispatch(acceptRoomDecision({
+                                                ...room,
+                                                decision: 'accept'
+                                            }))}
                                             src={confirm}
                                             alt="Разрешить"
                                             className={"acceptRoomBtn"}/>
                                         <img
-                                            onClick={() => dispatch(doNotAccept({...room}))}
+                                            onClick={() => dispatch(acceptRoomDecision({
+                                                ...room,
+                                                decision: 'reject'
+                                            }))}
                                             src={unConfirm}
                                             alt="Запретить"
                                             className={"acceptRoomBtn"}

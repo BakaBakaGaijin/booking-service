@@ -67,32 +67,6 @@ export default function Login() {
                 >
                     Log in
                 </button>
-                <button
-                    type={"submit"}
-                    className={"loginButton"}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        if (login && password) {
-                            dispatch(loginAsync({login, password}));
-                        }
-                        logIn();
-                    }}
-                >
-                    Log in as user
-                </button>
-                <button
-                    onClick={
-                        (e) => {
-                            e.preventDefault();
-                            fetch('/occupied-rooms', {
-                                method: 'GET',
-                            })
-                                .then((res) => res.json())
-                                // Update the state with the received response
-                                 .then((data) => console.log(data))
-                        }
-                    }
-                >запрос</button>
             </form>
         </div>
     );

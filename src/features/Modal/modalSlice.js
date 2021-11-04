@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     show: false,
@@ -12,7 +12,6 @@ export const modalSlice = createSlice({
     reducers: {
         change: (state, action) => {
             if (action.payload) {
-                console.log('ok')
                 if (action.payload.currentRoom) {
                     state.mode = action.payload.mode;
                     state.currentRoom = action.payload.currentRoom;
@@ -21,12 +20,12 @@ export const modalSlice = createSlice({
                 }
             }
 
-           state.show = !state.show;
+            state.show = !state.show;
         }
     },
 })
 
-export const { change } = modalSlice.actions;
+export const {change} = modalSlice.actions;
 
 export default modalSlice.reducer;
 

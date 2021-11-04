@@ -1,11 +1,11 @@
 import {
     Link
-} from "react-router-dom";
+} from 'react-router-dom';
 
 import './Room.css';
 import projector from '../../../icons/projector.png';
 import board from '../../../icons/board.png';
-import {getTimeData} from "../../getTimeData/getTimeData";
+import {getTimeData} from '../../getTimeData/getTimeData';
 
 export function getStrToChairs(chairs) {
     let strChairs;
@@ -36,7 +36,6 @@ function Room({title, chairs, time, isProjector, isBoard}) {
         let timeObj = getTimeData(time[0]);
         timeRange = timeObj.timeRange;
     }
-    console.log('title: ', title);
     let strTitle = `Комната ${title[0]}.${title.slice(1)}`
 
     let places = `${chairs} ${strChairs}`;
@@ -45,23 +44,23 @@ function Room({title, chairs, time, isProjector, isBoard}) {
 
         <Link
             to={`rooms/${title}`}
-            className={"link"}
+            className={'link'}
         >
             <div
-                className={"room"}
+                className={'room'}
                 key={title}
             >
-                <div className="col1">
-                    <h3 className="title">{strTitle}</h3>
-                    <p className="chairs">{places}</p>
-                    <p className="time">{isTime ? `Time: ${timeRange}` : "Аудитория свободна"}</p>
+                <div className='col1'>
+                    <h3 className='title'>{strTitle}</h3>
+                    <p className='chairs'>{places}</p>
+                    <p className='time'>{isTime ? `Time: ${timeRange}` : 'Аудитория свободна'}</p>
                 </div>
-                <div className="col2">
-                    <div className="equipment">
-                        {isProjector && <img src={projector} alt="projector"/>}
+                <div className='col2'>
+                    <div className='equipment'>
+                        {isProjector && <img src={projector} alt='projector'/>}
                     </div>
-                    <div className="equipment board">
-                        {isBoard && <img src={board} alt="board"/>}
+                    <div className='equipment board'>
+                        {isBoard && <img src={board} alt='board'/>}
                     </div>
                 </div>
             </div>

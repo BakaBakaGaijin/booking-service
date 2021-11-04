@@ -1,10 +1,10 @@
-import "./Modal.css";
-import React, {useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {change} from "./modalSlice";
-import {ModalReservation} from "./ModalReservation";
-import {Loader} from "../Loader/Loader";
-import {CreateRoom} from "../AcceptRooms/CreateRoom";
+import './Modal.css';
+import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {change} from './modalSlice';
+import {ModalReservation} from './ModalReservation';
+import {Loader} from '../Loader/Loader';
+import {CreateRoom} from './CreateRoom';
 
 export default function Modal() {
     const [addRequestStatus, setAddRequestStatus] = useState('idle');
@@ -14,7 +14,6 @@ export default function Modal() {
     const mode = useSelector(state => state.modal.mode);
 
     const changeHandler = (e) => {
-        console.log(isShowing);
         if (isShowing) {
             const currentClass = e.target.className;
             e.stopPropagation();
@@ -31,12 +30,14 @@ export default function Modal() {
         <>
             <div hidden={!isShowing}>
                 <div
-                    className="modal-background"
+                    className='modal-background'
                     onClick={changeHandler}
                 >
-                    <div className="modal-card"
-                        onClick={(e) => {e.preventDefault()
-                        e.stopPropagation()}}
+                    <div className='modal-card'
+                         onClick={(e) => {
+                             e.preventDefault()
+                             e.stopPropagation()
+                         }}
                     >
                         {mode == 'time' && <ModalReservation
                             addRequestStatus={addRequestStatus}
@@ -49,7 +50,7 @@ export default function Modal() {
                     </div>
                 </div>
             </div>
-            {addRequestStatus === 'pending' && <Loader />}
+            {addRequestStatus === 'pending' && <Loader/>}
         </>
     );
 }

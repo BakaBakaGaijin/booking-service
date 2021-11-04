@@ -1,12 +1,10 @@
-import { useRouteMatch } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import React, { useEffect, useState} from 'react';
+import {useRouteMatch} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import React, {useEffect} from 'react';
 
 import Room from './Room/Room';
-import { selectRooms, fetchRooms } from './roomSlice';
-import { Loader } from '../Loader/Loader';
-import {fetchAcceptRooms} from "../AcceptRooms/acceptRoomsSlice";
-import fe from "react-datepicker";
+import {selectRooms, fetchRooms} from './roomSlice';
+import {Loader} from '../Loader/Loader';
 
 function Rooms() {
     let timerId;
@@ -31,8 +29,8 @@ function Rooms() {
         <div>
             {
                 roomStatus === 'loading'
-                ? <Loader />
-                : roomStatus === 'succeeded'
+                    ? <Loader/>
+                    : roomStatus === 'succeeded'
                         ? rooms.map(room =>
                             <Room
                                 key={room.title}

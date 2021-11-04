@@ -1,14 +1,13 @@
-import {useSelector, useDispatch} from "react-redux";
-import "./AcceptRooms.css";
+import {useSelector, useDispatch} from 'react-redux';
 
-import confirm from "../../icons/is.png";
-import unConfirm from "../../icons/isnt.png";
-import {doNotAccept, acceptRoom} from "../Rooms/roomSlice";
-import {useEffect, useState} from "react";
-import {Loader} from "../Loader/Loader";
+import './AcceptRooms.css';
+import confirm from '../../icons/is.png';
+import unConfirm from '../../icons/isnt.png';
+import {useEffect} from 'react';
+import {Loader} from '../Loader/Loader';
 import {fetchAcceptRooms, selectAcceptRooms} from './acceptRoomsSlice';
-import {getTimeData} from "../getTimeData/getTimeData";
-import {acceptRoomDecision} from "./acceptRoomsSlice";
+import {getTimeData} from '../getTimeData/getTimeData';
+import {acceptRoomDecision} from './acceptRoomsSlice';
 
 export default function AcceptRooms() {
     let timerId;
@@ -33,37 +32,37 @@ export default function AcceptRooms() {
         <>
             {
                 roomStatus === 'loading' && !timerId
-                    ? <Loader />
+                    ? <Loader/>
                     : roomStatus === 'succeeded'
                         ? <div className={"acceptRoomList"}>
                             {rooms.map(room => (
                                 <div
-                                    className={"acceptRoomItem"}
+                                    className={'acceptRoomItem'}
                                     key={room.title}
                                 >
-                                    <div className="acceptRoomInfo">
+                                    <div className='acceptRoomInfo'>
                                         <p>Дата: {getTimeData(room).date}</p>
                                         <p>Участник: {room.person}</p>
                                         <p>Номер комнаты: {room.title[0]}.{room.title.slice(1)}</p>
                                         <p>Время: {getTimeData(room).timeRange}</p>
                                     </div>
-                                    <div className="acceptRoomConfirm">
+                                    <div className='acceptRoomConfirm'>
                                         <img
                                             onClick={() => dispatch(acceptRoomDecision({
                                                 ...room,
                                                 decision: 'accept'
                                             }))}
                                             src={confirm}
-                                            alt="Разрешить"
-                                            className={"acceptRoomBtn"}/>
+                                            alt='Разрешить'
+                                            className={'acceptRoomBtn'}/>
                                         <img
                                             onClick={() => dispatch(acceptRoomDecision({
                                                 ...room,
                                                 decision: 'reject'
                                             }))}
                                             src={unConfirm}
-                                            alt="Запретить"
-                                            className={"acceptRoomBtn"}
+                                            alt='Запретить'
+                                            className={'acceptRoomBtn'}
                                         />
                                     </div>
                                 </div>

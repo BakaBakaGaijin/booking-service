@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
     acceptRooms: [],
@@ -7,7 +7,7 @@ const initialState = {
     error: null,
 }
 
-export const fetchAcceptRooms = createAsyncThunk('acceptRooms/fetchAcceptRooms', async() => {
+export const fetchAcceptRooms = createAsyncThunk('acceptRooms/fetchAcceptRooms', async () => {
     const response = await axios.get('/api/accept-rooms');
     return response.data;
 });
@@ -52,7 +52,6 @@ export const acceptRoomSlice = createSlice({
                 state.acceptRooms = action.payload;
             })
             .addCase(addNewToAcceptRooms.fulfilled, (state, action) => {
-                console.log('addNewToAcceptRooms: ', action.payload);
                 state.status = 'succeeded';
                 state.acceptRooms.push(action.payload);
             })

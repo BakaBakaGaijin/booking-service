@@ -26,5 +26,5 @@ export const getTimeData = (time) => {
     const date = `${day}.${month}.${year}`;
 
 
-    return { timeRange, date };
+    return {timeRange, date};
 };

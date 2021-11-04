@@ -1,6 +1,6 @@
-import BounceLoader from "react-spinners/BounceLoader";
-import {css} from "@emotion/react";
-import React from "react";
+import BounceLoader from 'react-spinners/BounceLoader';
+import {css} from '@emotion/react';
+import React from 'react';
 
 import './Loader.css';
 
@@ -15,7 +15,7 @@ export const Loader = () => {
         <div className={'loader'}>
             <BounceLoader
                 css={override}
-                color={"#36D7B7"}
+                color={'#36D7B7'}
                 loading={true}
                 size={150}/>
         </div>

@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchAuth} from "./authAPI";
-import {useAuth} from "./use-auth";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+
+import {fetchAuth} from './authAPI';
 
 export const loginAsync = createAsyncThunk(
     'auth/fetchAuth',
@@ -45,7 +45,7 @@ export const authSlice = createSlice({
     },
 });
 
-export const { authorize } = authSlice.actions;
+export const {authorize} = authSlice.actions;
 
 export const selectIsOfficeManager = state => state.auth.role === 'officeManager';
 

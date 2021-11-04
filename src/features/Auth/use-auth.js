@@ -1,18 +1,11 @@
 import React, {
     useState,
-    useEffect,
     useContext,
     createContext
-} from "react";
-import {
-    useSelector,
-    useDispatch
-} from "react-redux";
+} from 'react';
 
-import {authorize} from "./authSlice";
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route} from 'react-router-dom';
 
-//-
 const authContext = createContext();
 
 export function ProvideAuth({children}) {
@@ -27,17 +20,14 @@ export function ProvideAuth({children}) {
 export const useAuth = () => {
     return useContext(authContext);
 }
-//+
+
 
 function useProvideAuth() {
     const [user, setUser] = useState(null);
 
-    const dispatch = useDispatch();
-    //const user = useSelector((state) => state.auth.name);
-
     const signin = cb => {
         return fakeAuth.signin(() => {
-            setUser("user");
+            setUser('user');
             cb();
         });
     };
@@ -79,7 +69,7 @@ export function PrivateRoute({children, ...rest}) {
                 children
             ) : (
                 <Redirect to={{
-                    pathname: "/login",
+                    pathname: '/login',
                     state: {from: location}
                 }}
                 />

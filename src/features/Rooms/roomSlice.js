@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from "axios";
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
     error: null,
 }
 
-export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async() => {
+export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
     const response = await axios.get('/api/rooms');
     return response.data;
 });
@@ -28,7 +28,6 @@ export const roomSlice = createSlice({
             state.status = action.payload;
         },
         neededUpdate: (state, action) => {
-            console.log("accept room action.payload: ", action.payload);
             const newState = state.acceptRooms.filter((room) =>
                 room.title != action.payload.title &&
                 room.person != action.payload.person &&

@@ -79,12 +79,24 @@ export const handlers = [
     }),
 
     rest.post('/api/rooms', (req, res, ctx) => {
-        const data = req.body;
-        console.log('data', data);
+        const {title, chairs, isProjector, isBoard, description} = req.body;
+        console.log('req.body', req.body);
+        console.log('title, chairs, isProjector, isBoard, description', title, chairs, isProjector, isBoard, description)
+        let newRoom = {
+            title,
+            chairs,
+            time: [],
+            isProjector,
+            isBoard,
+            description
+        }
+
+        allRooms.push(newRoom);
+
         return res(
             ctx.status(200),
             ctx.delay(1000),
-            ctx.json()
+            ctx.json(newRoom)
         )
     }),
 
@@ -120,8 +132,9 @@ export const handlers = [
         roomsToAccept = roomsToAccept.filter(el => JSON.stringify(el) !== JSON.stringify(roomToAccept));
 
         if (decision === 'accept') {
-            let updatedReservation = allRooms.find(room => room.title = title);
-            const index = allRooms.findIndex(room => room.title = title);
+            let updatedReservation = allRooms.find(room => room.title === title);
+            const index = allRooms.findIndex(room => room.title === title);
+            console.log('index', index);
 
             updatedReservation.time.push({startDate, endDate, person});
 

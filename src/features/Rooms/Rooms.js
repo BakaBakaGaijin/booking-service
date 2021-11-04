@@ -6,8 +6,11 @@ import Room from './Room/Room';
 import { selectRooms, fetchRooms } from './roomSlice';
 import { Loader } from '../Loader/Loader';
 import {fetchAcceptRooms} from "../AcceptRooms/acceptRoomsSlice";
+import fe from "react-datepicker";
 
 function Rooms() {
+    let timerId;
+
     const dispatch = useDispatch();
 
     const roomStatus = useSelector(state => state.rooms.status);
@@ -18,6 +21,7 @@ function Rooms() {
             dispatch(fetchRooms())
         }
 
+        timerId = setInterval(() => dispatch(fetchRooms()), 10000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectRooms);

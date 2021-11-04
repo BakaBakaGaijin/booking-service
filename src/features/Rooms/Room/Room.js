@@ -36,7 +36,7 @@ function Room({title, chairs, time, isProjector, isBoard}) {
         let timeObj = getTimeData(time[0]);
         timeRange = timeObj.timeRange;
     }
-
+    console.log('title: ', title);
     let strTitle = `Комната ${title[0]}.${title.slice(1)}`
 
     let places = `${chairs} ${strChairs}`;

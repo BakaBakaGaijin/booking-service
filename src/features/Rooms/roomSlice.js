@@ -10,24 +10,24 @@ const initialState = {
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async() => {
     const response = await axios.get('/api/rooms');
     return response.data;
-})
+});
+
+export const createRoom = createAsyncThunk(
+    'rooms/createRoom',
+    async initialData => {
+        const response = await axios.post('/api/rooms', initialData);
+        return response.data;
+    }
+)
 
 export const roomSlice = createSlice({
     name: 'rooms',
     initialState,
     reducers: {
-        doNotAccept: (state, action) => {
-            console.log("action.payload: ", action.payload);
-            const newState = state.acceptRooms.filter((room) =>
-                room.title != action.payload.title &&
-                room.person != action.payload.person &&
-                room.date != action.payload.date &&
-                room.time != action.payload.time
-            )
-
-            state.acceptRooms = newState;
+        allRoomStatusChanged: (state, action) => {
+            state.status = action.payload;
         },
-        acceptRoom: (state, action) => {
+        neededUpdate: (state, action) => {
             console.log("accept room action.payload: ", action.payload);
             const newState = state.acceptRooms.filter((room) =>
                 room.title != action.payload.title &&
@@ -53,18 +53,29 @@ export const roomSlice = createSlice({
             .addCase(fetchRooms.pending, (state, action) => {
                 state.status = 'loading';
             })
+            .addCase(createRoom.pending, (state, action) => {
+                state.status = 'loading';
+            })
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.allRooms = state.allRooms.concat(action.payload);
+                state.allRooms = action.payload;
+            })
+            .addCase(createRoom.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.allRooms.push(action.payload);
             })
             .addCase(fetchRooms.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(createRoom.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
     }
 })
 
-export const {addToAccept, doNotAccept, acceptRoom} = roomSlice.actions;
+export const {allRoomStatusChanged, neededUpdate} = roomSlice.actions;
 
 export const selectRooms = (state) => state.rooms.allRooms;
 

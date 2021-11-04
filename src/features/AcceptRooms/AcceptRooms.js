@@ -24,7 +24,7 @@ export default function AcceptRooms() {
             dispatch(fetchAcceptRooms())
         }
 
-        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000)
+        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 1000000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectAcceptRooms);

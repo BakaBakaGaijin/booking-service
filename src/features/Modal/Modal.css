@@ -8,6 +8,7 @@
 
 .modal-background {
     position: absolute;
+    overflow: hidden;
     right: 0;
     top: 0;
     left: 0;
@@ -18,7 +19,7 @@
 .modal-card {
     margin: 0 auto;
     display: block;
-    margin-top: 250px;
+    margin-top: 150px;
     width: 300px;
     background-color: #fff;
     border-radius: 5px;

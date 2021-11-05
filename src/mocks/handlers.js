@@ -60,23 +60,7 @@ let allRooms = [
     },
 ];
 
-const ID = 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda';
-// if (req.id === ID);
 export const handlers = [
-    rest.post('/api/login', (req, res, ctx) => {
-        const {username} = req.body
-
-        return res(
-            ctx.status(200),
-            ctx.json({
-                id: ID,
-                username,
-                firstName: 'John',
-                lastName: 'Maverick',
-            })
-        )
-    }),
-
     rest.post('/api/rooms', (req, res, ctx) => {
         const {title, chairs, isProjector, isBoard, description} = req.body;
 
@@ -95,6 +79,33 @@ export const handlers = [
             ctx.status(200),
             ctx.delay(1000),
             ctx.json(newRoom)
+        )
+    }),
+
+    rest.post('/api/rooms-edit', (req, res, ctx) => {
+        const {oldTitle, title, chairs, isProjector, isBoard, description} = req.body;
+        let updatedRoom;
+
+        allRooms.forEach(room => {
+            if (room.title === oldTitle) {
+                room.title = title;
+                room.chairs = chairs;
+                room.isProjector = isProjector;
+                room.isBoard = isBoard;
+                room.description = description;
+
+                updatedRoom = room;
+            }
+        })
+
+        roomsToAccept.forEach(room => {
+            if (room.title === oldTitle) room.title = title;
+        })
+
+        return res(
+            ctx.status(200),
+            ctx.delay(1000),
+            ctx.json({oldTitle, updatedRoom})
         )
     }),
 

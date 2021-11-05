@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from "axios";
+import axios from 'axios';
 
 const initialState = {
     allRooms: [],
@@ -16,6 +16,14 @@ export const createRoom = createAsyncThunk(
     'rooms/createRoom',
     async initialData => {
         const response = await axios.post('/api/rooms', initialData);
+        return response.data;
+    }
+)
+
+export const editRoom = createAsyncThunk(
+    'rooms/editRoom',
+    async initialData => {
+        const response = await axios.post('/api/rooms-edit', initialData);
         return response.data;
     }
 )
@@ -55,6 +63,9 @@ export const roomSlice = createSlice({
             .addCase(createRoom.pending, (state, action) => {
                 state.status = 'loading';
             })
+            .addCase(editRoom.pending, (state, action) => {
+                state.status = 'loading';
+            })
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.allRooms = action.payload;
@@ -63,11 +74,26 @@ export const roomSlice = createSlice({
                 state.status = 'succeeded';
                 state.allRooms.push(action.payload);
             })
+            .addCase(editRoom.fulfilled, (state, action) => {
+                const {oldTitle, updatedRoom} = action.payload;
+                state.status = 'succeeded';
+                state.allRooms = state.allRooms.map(room => {
+                    if (room.title === oldTitle) {
+                        return updatedRoom;
+                    } else {
+                        return room
+                    }
+                })
+            })
             .addCase(fetchRooms.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
             .addCase(createRoom.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(editRoom.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })

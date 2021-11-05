@@ -23,7 +23,7 @@ export default function AcceptRooms() {
             dispatch(fetchAcceptRooms())
         }
 
-        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 1000000)
+        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectAcceptRooms);
@@ -34,7 +34,7 @@ export default function AcceptRooms() {
                 roomStatus === 'loading' && !timerId
                     ? <Loader/>
                     : roomStatus === 'succeeded'
-                        ? <div className={"acceptRoomList"}>
+                        ? <div className={'acceptRoomList'}>
                             {rooms.map(room => (
                                 <div
                                     className={'acceptRoomItem'}

@@ -19,7 +19,7 @@ function Rooms() {
             dispatch(fetchRooms())
         }
 
-        timerId = setInterval(() => dispatch(fetchRooms()), 10000)
+        timerId = setInterval(() => dispatch(fetchRooms()), 10000000000)
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectRooms);

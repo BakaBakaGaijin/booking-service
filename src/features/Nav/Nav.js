@@ -17,12 +17,20 @@ export const Nav = () => {
                 Все комнаты
             </Link>
             {
-                isOfficeManager && <Link
-                    to={'/acceptRoom'}
-                    className={`navbar-link ${location.pathname === '/acceptRoom' && 'active'}`}
-                >
-                    Одобрить комнаты
-                </Link>
+                isOfficeManager && <>
+                    <Link
+                        to={'/acceptRoom'}
+                        className={`navbar-link ${location.pathname === '/acceptRoom' && 'active'}`}
+                    >
+                        Одобрить комнаты
+                    </Link>
+                    <Link
+                        to={'/users'}
+                        className={`navbar-link ${location.pathname === '/users' && 'active'}`}
+                    >
+                        Пользователи
+                    </Link>
+                </>
             }
         </nav>
     );

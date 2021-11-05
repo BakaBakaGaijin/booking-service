@@ -1,4 +1,3 @@
-import {useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import React, {useEffect} from 'react';
 
@@ -23,7 +22,6 @@ function Rooms() {
     }, [roomStatus, dispatch]);
 
     const rooms = useSelector(selectRooms);
-    let match = useRouteMatch();
 
     return (
         <div>

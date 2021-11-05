@@ -60,6 +60,19 @@ let allRooms = [
     },
 ];
 
+let allUsers = [
+    {
+        userId: 1,
+        name: 'Легостаев Дмитрий',
+        role: 'officeManager'
+    },
+    {
+        userId: 2,
+        name: 'Тургунова Алсу',
+        role: 'employee'
+    }
+];
+
 export const handlers = [
     rest.post('/api/rooms', (req, res, ctx) => {
         const {title, chairs, isProjector, isBoard, description} = req.body;
@@ -153,6 +166,41 @@ export const handlers = [
             ctx.status(200),
             ctx.delay(100),
             ctx.json(roomToAccept)
+        )
+    }),
+
+    rest.post('/api/users', (req, res, ctx) => {
+        const {userId} = req.body;
+
+        let changedRole = {
+            userId: userId,
+            role: 'officeManager',
+            name: '',
+        };
+
+        allUsers.forEach((user) => {
+            if (user.userId === userId) {
+                changedRole.name = user.name;
+                return changedRole;
+            } else {
+                return user;
+            }
+        })
+
+        return res(
+            ctx.status(200),
+            ctx.delay(100),
+            ctx.json(changedRole)
+        )
+    }),
+
+    rest.get('/api/users', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.delay(100),
+            ctx.json(
+                allUsers
+            ),
         )
     }),
 

@@ -13,6 +13,7 @@ import CurrentRoom from './features/Rooms/CurrentRoom/CurrentRoom';
 import {Nav} from './features/Nav/Nav';
 import {AddBtn} from './features/AddBtn/AddBtn';
 import {selectIsOfficeManager} from './features/Auth/authSlice';
+import {Users} from './features/Users/Users';
 
 const App = () => {
     const isOfficeManager = useSelector(selectIsOfficeManager);
@@ -37,6 +38,12 @@ const App = () => {
             >
                 <Nav/>
                 <AcceptRooms/>
+            </PrivateRoute>
+            <PrivateRoute
+                path={'/users'}
+            >
+                <Nav/>
+                <Users/>
             </PrivateRoute>
             <PrivateRoute
                 path={`/rooms/:roomId`}>

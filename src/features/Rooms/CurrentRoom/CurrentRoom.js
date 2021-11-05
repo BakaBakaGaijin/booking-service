@@ -91,14 +91,14 @@ export default function CurrentRoom() {
                             <label>Есть проектор?
                                 <input
                                     type='checkbox'
-                                    value={isProjector}
+                                    checked={isProjector}
                                     onClick={() => setIsProjector(!isProjector)}
                                 />
                             </label>
                             <label>Есть доска?
                                 <input
                                     type='checkbox'
-                                    value={isBoard}
+                                    checked={isBoard}
                                     onClick={() => setIsBoard(!isBoard)}
                                 />
                             </label>

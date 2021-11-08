@@ -1,6 +1,5 @@
 .currentRoom {
     margin: auto;
-    margin: auto;
     display: flex;
     padding: 20px;
     flex-direction: column;
@@ -58,4 +57,67 @@
     background-color: #056efd;
     color: #fff;
     cursor: pointer;
+}
+
+.currentRoom-denyBtn, .currentRoom-editBtn, .editCurrentRoomTextInput {
+    box-sizing: border-box;
+    width: 200px;
+    height: 40px;
+    border: 1px solid red;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: auto;
+}
+
+.currentRoom-denyBtn {
+    margin-bottom: 10px;
+}
+
+.currentRoom-denyBtn:hover, .currentRoom-editBtn:hover {
+    background-color: red;
+    color: #fff;
+}
+
+.editCurrentRoomTextInput {
+    border-color: #000;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.editCurrentRoomCheckbox+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    margin-bottom: 10px;
+}
+
+.editCurrentRoomCheckbox+label::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid #adb5bd;
+    border-radius: 50%;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    background-color: #fff;
+}
+
+.editCurrentRoomCheckbox:checked+label::before {
+    border-color: #0b76ef;
+    background-color: #0b76ef;
+    background-image: url('../../../icons/is.png');
+}
+
+.editCurrentRoomCheckbox {
+    position: absolute;
+    top: 300px;
+    opacity: 0;
+    z-index: -1;
 }

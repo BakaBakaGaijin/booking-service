@@ -1,16 +1,14 @@
 import {Redirect, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {change} from '../../Modal/modalSlice';
 import {getStrToChairs} from '../Room/Room';
-import {getTimeData} from '../../getTimeData/getTimeData';
 import './CurrentRoom.css';
-import is from '../../../icons/is.png'
-import isnt from '../../../icons/isnt.png'
 import {editRoom, selectRooms} from '../roomSlice';
 import {useState} from 'react';
 import {selectIsOfficeManager} from '../../Auth/authSlice';
 import {Loader} from '../../Loader/Loader';
+import {EditCurrentRoom} from './EditCurrentRoom';
+import {CurrentRoomContent} from './CurrentRoomContent';
 
 export default function CurrentRoom() {
     const [addRequestStatus, setAddRequestStatus] = useState('idle');
@@ -59,102 +57,41 @@ export default function CurrentRoom() {
         <>
             <div className={'currentRoom'}>
                 {isOfficeManager && !isEdit
-                    ? <button onClick={() => setIsEdit(true)}>Редактировать</button>
+                    ? <button
+                        className={'currentRoom-editBtn'}
+                        onClick={() => setIsEdit(true)}
+                    >
+                        Редактировать
+                </button>
                     : isEdit
-                        ? <button onClick={() => setIsEdit(false)}>Отменить редактирование</button>
+                        ? <button
+                            className={'currentRoom-denyBtn'}
+                            onClick={() => setIsEdit(false)}
+                        >
+                            Отменить редактирование
+                    </button>
                         : null}
                 {
                     isEdit
-                        ? <label>Номер комнаты:
-                            <input
-                                type={'number'}
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                            />
-                        </label>
-                        : <h3 className={'currentRoom-title'}>{strTitle}</h3>
-                }
-                {
-                    isEdit
-                        ? <label>Количество мест:
-                            <input
-                                value={chairs}
-                                onChange={(e) => setChairs(e.target.value)}
-                                type='number'
-                            />
-                        </label>
-                        : <p className={'p'}>{places}</p>
-                }
-                {
-                    isEdit
-                        ? <>
-                            <label>Есть проектор?
-                                <input
-                                    type='checkbox'
-                                    checked={isProjector}
-                                    onClick={() => setIsProjector(!isProjector)}
-                                />
-                            </label>
-                            <label>Есть доска?
-                                <input
-                                    type='checkbox'
-                                    checked={isBoard}
-                                    onClick={() => setIsBoard(!isBoard)}
-                                />
-                            </label>
-                        </>
-                        : <div className='currentRoomToolsWrapper'>
-                            <div className='currentRoom-tools currentRoom-projector'>
-                                {room.isProjector ?
-                                    <img src={is} alt='есть' className={'currentRoom-img'}/> :
-                                    <img src={isnt} alt='нет' className={'currentRoom-img'}/>} Прожектор
-                            </div>
-                            <div className='currentRoom-tools currentRoom-board'>
-                                {room.isBoard ?
-                                    <img src={is} alt='есть' className={'currentRoom-img'}/> :
-                                    <img src={isnt} alt='нет' className={'currentRoom-img'}/>} Маркерная доска
-                            </div>
-                        </div>
-                }
-                {
-                    isEdit
-                        ? <label>
-                            Описание комнаты:
-                            <input
-                                type='text'
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </label>
-                        : <>
-                            <p className='description'>{room.description}</p>
-                            <h4>Зарезервированное время</h4>
-                            <table>
-                                {room.time.map(r => <tr className={'reservationTime'}>
-                                    <td className={'reservationTime-item'}>{getTimeData(r).timeRange}</td>
-                                    <td className={'reservationTime-item'}>{getTimeData(r).date}</td>
-                                    <td className={'reservationTime-item'}>{r.person}</td>
-                                </tr>)}
-                            </table>
-                        </>
-                }
-
-                {
-                    isEdit
-                        ? <button
-                            onClick={onEditRoom}
-                            type={'submit'}
-                            className='currentRoom-btn'
-                        >
-                            Сохранить изменения
-                        </button>
-                        : <button
-                            className={'currentRoom-btn'}
-                            onClick={() => dispatch(change({
-                                mode: 'time',
-                                currentRoom: roomId
-                            }))}
-                        >Забронировать</button>
+                        ? <EditCurrentRoom
+                            title={title}
+                            setTitle={setTitle}
+                            chairs={chairs}
+                            setChairs={setChairs}
+                            isProjector={isProjector}
+                            setIsProjector={setIsProjector}
+                            isBoard={isBoard}
+                            setIsBoard={setIsBoard}
+                            description={description}
+                            setDescription={setDescription}
+                            onEditRoom={onEditRoom}
+                        />
+                        : <CurrentRoomContent
+                            strTitle={strTitle}
+                            places={places}
+                            room={room}
+                            roomId={roomId}
+                        />
                 }
             </div>
             {addRequestStatus === 'pending' && <Loader/>}

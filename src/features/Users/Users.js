@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {fetchUsers, editUser} from './usersSlice';
 import './Users.css';
 import {Loader} from '../Loader/Loader';
+import {useInterval} from '../useInterval/useInterval';
 
 export const Users = () => {
     const [addRequestStatus, setAddRequestStatus] = useState('idle');
@@ -16,51 +17,58 @@ export const Users = () => {
         if (usersStatus === 'idle') {
             dispatch(fetchUsers());
         }
-
-        timerId = setInterval(() => dispatch(fetchUsers()), 10000000)
     }, [usersStatus, dispatch])
 
-    const users = useSelector(state => state.users.allUsers);
+    useInterval(() => {
+        dispatch(fetchUsers())
+    }, 1000 * 10)
 
-    let canSave = addRequestStatus === 'idle';
+    const users = useSelector(state => state.users.allUsers);
 
     if (usersStatus === 'penging') return <Loader/>
 
     return (
         <div className={'usersPage'}>
-            <div className='usersCol usersCol1'>
-                <h3>id</h3>
-                {users.map(user => <div className={'usersRow'}>
-                    {user.userId}
-                </div>)}
-            </div>
-            <div className='usersCol usersCol2'>
-                <h3>ф.и.</h3>
-                {users.map(user => <div className={'usersRow'}>
-                    {user.name}
-                </div>)}
-            </div>
-            <div className='usersCol usersCol3'>
-                <h3>роль</h3>
-                {users.map(user => <div className={'usersRow'}>
-                    {user.role}
-                </div>)}
-            </div>
-            <div className='usersCol usersCol4'>
-                <h3>повысить роль</h3>
-                {users.map(user => {
-                    return user.role === 'employee'
-                        ? <div
-                            onClick={() => dispatch(editUser({userId: user.userId}))}
-                            className={'usersRow usersRow-btn'}
-                        >
-                            повысить
+            {
+                usersStatus === 'loading'
+                    ? <Loader/>
+                    : <>
+                        <div className='usersCol usersCol1'>
+                            <h3>id</h3>
+                            {users.map(user => <div key={user.userId} className={'usersRow'}>
+                                {user.userId}
+                            </div>)}
                         </div>
-                        : <div className={'usersRow'}>
-                            нельзя
+                        <div className='usersCol usersCol2'>
+                            <h3>ф.и.</h3>
+                            {users.map(user => <div key={user.userId} className={'usersRow'}>
+                                {user.name}
+                            </div>)}
                         </div>
-                })}
-            </div>
+                        <div className='usersCol usersCol3'>
+                            <h3>роль</h3>
+                            {users.map(user => <div key={user.userId} className={'usersRow'}>
+                                {user.role}
+                            </div>)}
+                        </div>
+                        <div className='usersCol usersCol4'>
+                            <h3>повысить роль</h3>
+                            {users.map(user => {
+                                return user.role === 'employee'
+                                    ? <div
+                                        key={user.userId}
+                                        onClick={() => dispatch(editUser({userId: user.userId}))}
+                                        className={'usersRow usersRow-btn'}
+                                    >
+                                        повысить
+                                    </div>
+                                    : <div key={user.userId} className={'usersRow'}>
+                                        нельзя
+                                    </div>
+                            })}
+                        </div>
+                    </>
+            }
         </div>
     )
 }

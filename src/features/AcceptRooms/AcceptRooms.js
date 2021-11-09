@@ -8,6 +8,7 @@ import {Loader} from '../Loader/Loader';
 import {fetchAcceptRooms, selectAcceptRooms} from './acceptRoomsSlice';
 import {getTimeData} from '../getTimeData/getTimeData';
 import {acceptRoomDecision} from './acceptRoomsSlice';
+import {useInterval} from '../useInterval/useInterval';
 
 export default function AcceptRooms() {
     let timerId;
@@ -23,8 +24,11 @@ export default function AcceptRooms() {
             dispatch(fetchAcceptRooms())
         }
 
-        timerId = setInterval(() => dispatch(fetchAcceptRooms()), 10000000)
     }, [roomStatus, dispatch]);
+
+    useInterval(() => {
+        dispatch(fetchAcceptRooms())
+    }, 1000 * 10)
 
     const rooms = useSelector(selectAcceptRooms);
 

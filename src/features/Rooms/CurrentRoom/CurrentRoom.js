@@ -18,18 +18,19 @@ export default function CurrentRoom() {
     let {roomId} = useParams();
     let room = useSelector(selectRooms).filter(r => r.title == roomId)[0];
 
-
     const [isEdit, setIsEdit] = useState(false);
-    const [title, setTitle] = useState(room.title);
-    const [chairs, setChairs] = useState(room.chairs);
-    const [isProjector, setIsProjector] = useState(room.isProjector);
-    const [isBoard, setIsBoard] = useState(room.isBoard);
-    const [description, setDescription] = useState(room.description);
+    const [title, setTitle] = useState(room && room.title);
+    const [chairs, setChairs] = useState(room && room.chairs);
+    const [isProjector, setIsProjector] = useState(room && room.isProjector);
+    const [isBoard, setIsBoard] = useState(room && room.isBoard);
+    const [description, setDescription] = useState(room && room.description);
 
     const dispatch = useDispatch();
+
     if (!room) {
         return <Redirect to={'/rooms'}/>
     }
+
     const strTitle = `Комната ${room.title[0]}.${room.title.slice(1)}`;
     const places = `${room.chairs} ${getStrToChairs(room.chairs)}`;
 

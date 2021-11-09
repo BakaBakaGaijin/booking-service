@@ -4,6 +4,7 @@ import React, {useEffect} from 'react';
 import Room from './Room/Room';
 import {selectRooms, fetchRooms} from './roomSlice';
 import {Loader} from '../Loader/Loader';
+import {useInterval} from '../useInterval/useInterval';
 
 function Rooms() {
     let timerId;
@@ -20,6 +21,10 @@ function Rooms() {
 
         timerId = setInterval(() => dispatch(fetchRooms()), 10000000000)
     }, [roomStatus, dispatch]);
+
+    useInterval(() => {
+        dispatch(fetchRooms())
+    }, 1000 * 10)
 
     const rooms = useSelector(selectRooms);
 

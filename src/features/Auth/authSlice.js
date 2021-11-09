@@ -16,7 +16,7 @@ export const authSlice = createSlice({
         status: 'idle',
         isPerson: true,
         name: '',
-        role: 'deputat',
+        role: '',
         isAuthorized: false,
         isAdmin: false,
     },

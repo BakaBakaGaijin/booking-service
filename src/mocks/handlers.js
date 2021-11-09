@@ -63,12 +63,12 @@ let allRooms = [
 let allUsers = [
     {
         userId: 1,
-        name: 'Легостаев Дмитрий',
+        name: 'Иванов Иван',
         role: 'officeManager'
     },
     {
         userId: 2,
-        name: 'Тургунова Алсу',
+        name: 'Светлана Светлановна',
         role: 'employee'
     }
 ];
@@ -174,11 +174,12 @@ export const handlers = [
 
         let changedRole = {
             userId: userId,
-            role: 'officeManager',
             name: '',
+            role: 'officeManager',
         };
 
-        allUsers.forEach((user) => {
+
+        allUsers = allUsers.map((user) => {
             if (user.userId === userId) {
                 changedRole.name = user.name;
                 return changedRole;

@@ -19,7 +19,6 @@ function Rooms() {
             dispatch(fetchRooms())
         }
 
-        timerId = setInterval(() => dispatch(fetchRooms()), 10000000000)
     }, [roomStatus, dispatch]);
 
     useInterval(() => {

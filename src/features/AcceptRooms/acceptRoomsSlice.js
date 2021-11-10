@@ -23,7 +23,7 @@ export const addNewToAcceptRooms = createAsyncThunk(
 export const acceptRoomDecision = createAsyncThunk(
     'rooms/acceptRoomsDecision',
     async initialData => {
-        const response = await axios.post('/api/accept-rooms-decision', initialData);
+        const response = await axios.put('/api/accept-rooms', initialData);
         return response.data;
     }
 )

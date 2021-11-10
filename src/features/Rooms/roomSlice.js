@@ -23,7 +23,7 @@ export const createRoom = createAsyncThunk(
 export const editRoom = createAsyncThunk(
     'rooms/editRoom',
     async initialData => {
-        const response = await axios.post('/api/rooms-edit', initialData);
+        const response = await axios.put('/api/rooms', initialData);
         return response.data;
     }
 )
@@ -35,25 +35,6 @@ export const roomSlice = createSlice({
         allRoomStatusChanged: (state, action) => {
             state.status = action.payload;
         },
-        neededUpdate: (state, action) => {
-            const newState = state.acceptRooms.filter((room) =>
-                room.title != action.payload.title &&
-                room.person != action.payload.person &&
-                room.date != action.payload.date &&
-                room.time != action.payload.time
-            )
-
-            state.acceptRooms = newState;
-            state.allRooms.map(room => {
-                if (room.title == action.payload.title) {
-                    room.time.push({
-                        date: action.payload.date,
-                        time: action.payload.time,
-                        person: action.payload.person
-                    })
-                }
-            })
-        }
     },
     extraReducers(builder) {
         builder
@@ -100,7 +81,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {allRoomStatusChanged, neededUpdate} = roomSlice.actions;
+export const {allRoomStatusChanged} = roomSlice.actions;
 
 export const selectRooms = (state) => state.rooms.allRooms;
 

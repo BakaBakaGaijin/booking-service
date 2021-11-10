@@ -95,7 +95,7 @@ export const handlers = [
         )
     }),
 
-    rest.post('/api/rooms-edit', (req, res, ctx) => {
+    rest.put('/api/rooms', (req, res, ctx) => {
         const {oldTitle, title, chairs, isProjector, isBoard, description} = req.body;
         let updatedRoom;
 
@@ -141,7 +141,7 @@ export const handlers = [
         )
     }),
 
-    rest.post('/api/accept-rooms-decision', (req, res, ctx) => {
+    rest.put('/api/accept-rooms', (req, res, ctx) => {
         const {title, person, startDate, endDate, decision} = req.body;
 
         let roomToAccept = {
